@@ -30,17 +30,17 @@ jobs:
 
 
   deploy:
-        name: deploy new image
-        needs: [docker]
-        runs-on: ubuntu-latest
-        steps:
-        - name: executing remote SSH commands using password
-          uses: appleboy/ssh-action@master
-          with:
-            host: 52.157.192.99
-            username: deploy
-            key: ${{ secrets.SSH_PRIVATE_KEY }}
-            script: |
-                docker stop ttd_frontend || true 
-                docker rm -f ttd_frontend || true
-                docker run -d --name ttd_frontend -p3000:3000 -v /home/deploy/data.csv:/app/data.csv containerregistry1982.azurecr.io/ttd-frontend:${{ github.run_number }}
+    name: deploy new image
+    needs: [docker]
+    runs-on: ubuntu-latest
+    steps:
+     - name: executing remote SSH commands using password
+       uses: appleboy/ssh-action@master
+       with:
+         host: 52.157.192.99
+          username: deploy
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop ttd_frontend || true
+            docker rm -f ttd_frontend || true
+            docker run -d --name ttd_frontend -p3000:3000 -v /home/deploy/data.csv:/app/data.csv containerregistry1982.azurecr.io/ttd-frontend:${{ github.run_number }}
