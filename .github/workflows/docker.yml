@@ -41,6 +41,6 @@ jobs:
         username: deploy
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-            docker stop ttd_frontend || true
+            docker stop -f ttd_frontend || true
             docker rm -f ttd_frontend || true
-            docker run -d --name ttd_frontend -p3000:3000 -v /home/deploy/data.csv:/app/data.csv containerregistry1982.azurecr.io/ttd-frontend:${{ github.run_number }}
+            docker run -d --name ttd_frontend -p8080:80 containerregistry1982.azurecr.io/ttd-frontend:${{ github.run_number }}
